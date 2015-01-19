@@ -12,12 +12,17 @@ function indent() {
 BUILD_DIR=$1
 CACHE_DIR=$2
 
-DEB="$CACHE_DIR/wkhtmltopdf.deb"
-if [ ! -f $DEB ]; then
-  WKHTMLTOPDF_DOWNLOAD_URL="http://hivelocity.dl.sourceforge.net/project/wkhtmltopdf/0.12.2/wkhtmltox-0.12.2_linux-trusty-amd64.deb"
-  echo "-----> Downloading wkhtmltopdf: $WKHTMLTOPDF_DOWNLOAD_URL"
-  curl -L --silent -o $DEB $WKHTMLTOPDF_DOWNLOAD_URL
-fi
+APT_CACHE_DIR="$CACHE_DIR/apt/cache"
+APT_STATE_DIR="$CACHE_DIR/apt/state"
+APT_OPTIONS="-o debug::nolocking=true -o dir::cache=$APT_CACHE_DIR -o dir::state=$APT_STATE_DIR"
+
+topic "Updating apt caches"
+apt-get $APT_OPTIONS update | indent
+
+topic "Fetching wkhtmltopdf 0.12.2..."
+WKHTMLTOPDF_DOWNLOAD_URL="http://hivelocity.dl.sourceforge.net/project/wkhtmltopdf/0.12.2/wkhtmltox-0.12.2_linux-trusty-amd64.deb"
+echo "-----> Downloading wkhtmltopdf: $WKHTMLTOPDF_DOWNLOAD_URL"
+curl -s -L $WKHTMLTOPDF_DOWNLOAD_URL | indent
 
 echo "-----> Installing wkhtmltox 0.12.2"
 mkdir -p $BUILD_DIR/.apt
