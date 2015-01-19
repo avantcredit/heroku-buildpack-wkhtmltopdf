@@ -22,14 +22,23 @@ apt-get $APT_OPTIONS update | indent
 topic "Fetching wkhtmltopdf 0.12.2..."
 WKHTMLTOPDF_DOWNLOAD_URL="http://hivelocity.dl.sourceforge.net/project/wkhtmltopdf/0.12.2/wkhtmltox-0.12.2_linux-trusty-amd64.deb"
 echo "-----> Downloading wkhtmltopdf: $WKHTMLTOPDF_DOWNLOAD_URL"
-curl -s -L $WKHTMLTOPDF_DOWNLOAD_URL | indent
+PACKAGE_NAME=wkhtmltox-0.12.2_linux-trusty-amd64.deb
+PACKAGE_FILE=$APT_CACHE_DIR/archives/$PACKAGE_NAME.deb
+
+topic "Fetching $PACKAGE..."
+curl -s -L -z $PACKAGE_FILE -o $PACKAGE $WKHTMLTOPDF_DOWNLOAD_URL 2>&1 | indent
 
 echo "-----> Installing wkhtmltox 0.12.2"
 mkdir -p $BUILD_DIR/.apt
-dpkg -x $DEB $BUILD_DIR/.apt/
+
+for DEB in $(ls -1 $APT_CACHE_DIR/archives/*.deb); do
+  topic "Installing $(basename $DEB)"
+  dpkg -x $DEB $BUILD_DIR/.apt/
+done
 
 echo "Writing profile script" | indent
 mkdir -p $BUILD_DIR/.profile.d
+
 cat <<EOF >$BUILD_DIR/.profile.d/wkhtmltopdf.sh
 export PATH="\$HOME/.apt/usr/local/bin:\$PATH"
 export LD_LIBRARY_PATH="\$HOME/.apt/usr/local/lib/x86_64-linux-gnu:\$HOME/.apt/usr/local/lib/i386-linux-gnu:\$HOME/.apt/usr/local/lib:\$LD_LIBRARY_PATH"
