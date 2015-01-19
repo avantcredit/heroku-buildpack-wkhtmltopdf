@@ -26,7 +26,7 @@ apt-get $APT_OPTIONS update | indent
 echo "Fetching wkhtmltopdf 0.12.2..."
 WKHTMLTOPDF_DOWNLOAD_URL="http://hivelocity.dl.sourceforge.net/project/wkhtmltopdf/0.12.2/wkhtmltox-0.12.2_linux-trusty-amd64.deb"
 echo "-----> Downloading wkhtmltopdf: $WKHTMLTOPDF_DOWNLOAD_URL"
-PACKAGE_NAME=wkhtmltox-0.12.2_linux-trusty-amd64.deb
+PACKAGE_NAME=wkhtmltox-0.12.2_linux-trusty-amd64
 PACKAGE_FILE=$APT_CACHE_DIR/archives/$PACKAGE_NAME.deb
 
 echo "Fetching $PACKAGE..."
