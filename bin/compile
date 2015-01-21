@@ -24,13 +24,13 @@ echo "Updating apt caches"
 apt-get $APT_OPTIONS update | indent
 
 echo "Fetching wkhtmltopdf 0.12.2..."
-WKHTMLTOPDF_DOWNLOAD_URL="http://hivelocity.dl.sourceforge.net/project/wkhtmltopdf/0.12.2/wkhtmltox-0.12.2_linux-trusty-amd64.deb"
+WKHTMLTOPDF_DOWNLOAD_URL="http://hivelocity.dl.sourceforge.net/project/wkhtmltopdf/0.12.2.1/wkhtmltox-0.12.2.1_linux-trusty-amd64.deb"
 echo "-----> Downloading wkhtmltopdf: $WKHTMLTOPDF_DOWNLOAD_URL"
 PACKAGE_NAME=wkhtmltox-0.12.2_linux-trusty-amd64
 PACKAGE_FILE=$APT_CACHE_DIR/archives/$PACKAGE_NAME.deb
 
 echo "Fetching $WKHTMLTOPDF_DOWNLOAD_URL=..."
-curl -s -L -z $PACKAGE_FILE -o $PACKAGE_FILE $WKHTMLTOPDF_DOWNLOAD_URL 2>&1 | indent
+curl -L -z $PACKAGE_FILE -o $PACKAGE_FILE $WKHTMLTOPDF_DOWNLOAD_URL 2>&1 | indent
 
 echo "-----> Installing wkhtmltopdf 0.12.2"
 mkdir -p $BUILD_DIR/.apt
