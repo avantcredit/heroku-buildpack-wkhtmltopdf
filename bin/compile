@@ -29,8 +29,11 @@ echo "-----> Downloading wkhtmltopdf: $WKHTMLTOPDF_DOWNLOAD_URL"
 PACKAGE_NAME=wkhtmltox-0.12.2_linux-trusty-amd64
 PACKAGE_FILE=$APT_CACHE_DIR/archives/$PACKAGE_NAME.deb
 
-echo "Fetching $WKHTMLTOPDF_DOWNLOAD_URL=..."
-curl -L -z $PACKAGE_FILE -o $PACKAGE_FILE $WKHTMLTOPDF_DOWNLOAD_URL 2>&1 | indent
+# echo "Fetching $WKHTMLTOPDF_DOWNLOAD_URL=..."
+# curl -L -z $PACKAGE_FILE -o $PACKAGE_FILE $WKHTMLTOPDF_DOWNLOAD_URL 2>&1 | indent
+
+echo "-----> Moving wkhtmltox to archives directory"
+cp '../wkhtmltopdf/wkhtmltox-0.12.2.1_linux-trusty-amd64.deb' $PACKAGE_FILE
 
 echo "-----> Installing wkhtmltopdf 0.12.2"
 mkdir -p $BUILD_DIR/.apt
